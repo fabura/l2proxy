@@ -32,7 +32,7 @@ class ProxyUser
 
     public function toString() {
         $str = "";
-        if($this->disabled){$str .= "#";}
+        if($this->disabled){$str .= "# ";}
         $str .=$this->name.":CL:".$this->password."\t\t#".$this->expireDate;
         return $str;
     }
