@@ -14,6 +14,9 @@ class ConfigDAO
         return $users;
     }
 
+    private static function sortUsers($users){
+    }
+
     private static function saveUsersList($users)
     {
         $str = "######### USERS #########\n";
