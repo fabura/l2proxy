@@ -7,14 +7,20 @@ class ProxyUser
     var $expireDate;
     var $disabled;
 
-    static function  createFromLine($line){
-        if(preg_match('/^\s*(\#?)\s*(\w[^:]*):CL:(\S+)\s+#(\d{1,2}\.\d{1,2}.\d{4})/m', $line, $matches)){
+    /**
+     * @param $line
+     * @return null|ProxyUser
+     */
+    static function  createFromLine($line)
+    {
+        if (preg_match('/^\s*(\#?)\s*(\w[^:]*):CL:(\S+)\s+#(\d{1,2}\.\d{1,2}.\d{4})/m', $line, $matches)) {
             $disabled = strlen($matches[1]) == 1;
             $name = $matches[2];
             $password = $matches[3];
             $expireDate = $matches[4];
             return new ProxyUser($name, $password, $expireDate, $disabled);
         }
+        return null;
     }
 
     function __construct($name, $password, $expireDate, $disabled = false)
@@ -30,10 +36,23 @@ class ProxyUser
         return DateTime::createFromFormat("d.m.Y", $this->expireDate) < new DateTime("now");
     }
 
-    public function toString() {
+    public function toString()
+    {
         $str = "";
-        if($this->disabled){$str .= "#";}
-        $str .=$this->name.":CL:".$this->password."\t\t#".$this->expireDate;
+        if ($this->disabled) {
+            $str .= "#";
+        }
+        $str .= $this->name . ":CL:" . $this->password . "\t\t#" . $this->expireDate;
         return $str;
+    }
+
+    public function toArray()
+    {
+        return array(
+            'name' => $this->name,
+            'password' => $this->password,
+            'expireDate' => $this->expireDate,
+            'disabled' => $this->disabled
+        );
     }
 }
