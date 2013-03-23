@@ -1,0 +1,7 @@
+.expired-true {
+    background: indianred;
+}
+
+.expired-false {
+    background: darkolivegreen;
+}

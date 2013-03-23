@@ -18,7 +18,7 @@ function ListCtrl($scope, Project) {
 function CreateCtrl($scope, $location, Project) {
     $scope.save = function() {
         Project.save($scope.project, function(project) {
-            $location.path('/edit/' + project._id.$oid);
+            $location.path('/edit/' + project.name);
         });
     }
 }
@@ -27,14 +27,14 @@ function CreateCtrl($scope, $location, Project) {
 function EditCtrl($scope, $location, $routeParams, Project) {
     var self = this;
 
-    Project.get({id: $routeParams.projectId}, function(project) {
+    Project.get({name: $routeParams.projectId}, function(project) {
         self.original = project;
         $scope.project = new Project(self.original);
     });
 
     $scope.isClean = function() {
         return angular.equals(self.original, $scope.project);
-    }
+    };
 
     $scope.destroy = function() {
         self.original.destroy(function() {

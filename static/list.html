@@ -1,19 +1,23 @@
-<input type="text" ng-model="search" class="search-query" placeholder="Search">
-<table>
+<input type="text" ng-model="search" class="search-query span4" placeholder="Search"/>
+<div class="row span8"><table class="table">
     <thead>
     <tr>
-        <th>Project</th>
-        <th>Description</th>
+        <th>User</th>
+        <th>Password</th>
+        <th>Expire date</th>
+        <th>Enabled?</th>
         <th><a href="#/new"><i class="icon-plus-sign"></i></a></th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="project in projects | filter:search | orderBy:'name'">
-        <td><a href="{{project.site}}" target="_blank">{{project.name}}</a></td>
-        <td>{{project.description}}</td>
+    <tr class="expired-{{project.isExpired()}}" ng-repeat="project in projects | filter:search | orderBy: ['name', 'expireDate']">
+        <td>{{project.name}}</td>
+        <td>{{project.password}}</td>
+        <td>{{project.expireDate}}</td>
+        <td><input type="checkbox" ng-model="project.disabled" name="userEnabled" />
         <td>
-            <a href="#/edit/{{project._id.$oid}}"><i class="icon-pencil"></i></a>
+            <a href="#/edit/{{project.name}}"><i class="icon-pencil"></i></a>
         </td>
     </tr>
     </tbody>
-</table>
+</table></div>
