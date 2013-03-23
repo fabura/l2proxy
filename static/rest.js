@@ -8,7 +8,7 @@ angular.module('rest', ['ngResource']).
         );
 
         Project.prototype.update = function (cb) {
-            return Project.update({id: this._id.$oid},
+            return Project.update({id: this.name},
                 angular.extend({}, this, {_id: undefined}), cb);
         };
 
@@ -18,11 +18,7 @@ angular.module('rest', ['ngResource']).
 
         Project.prototype.isExpired = function (cb) {
             var re = new RegExp("(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})");
-            var dateString = this.expireDate.replace(re, "$2/$1/$3");
-            console.log(dateString);
-            var date2 = new Date(dateString);
-            console.log(date2);
-            return date2 - new Date() < 0;
+            return new Date(this.expireDate.replace(re, "$2/$1/$3")) - new Date() < 0;
         };
 
         return Project;

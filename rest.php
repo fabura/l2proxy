@@ -32,10 +32,18 @@ function rest_put($request)
 
 function rest_get($request)
 {
-    if (!isset($_GET['id'])) {
+    if (!isset($_GET['name'])) {
         echo json_encode(ConfigDAO::getUsersList());
         return;
     }
+    else{
+        $res = array_filter(ConfigDAO::getUsersList(), function($user) {return $user->name == $_GET['name'];});
+        if(sizeof($res) != 0){
+            echo json_encode($res[0]);
+            return;
+        }
+    }
+
 }
 
 function rest_post($request)
@@ -48,7 +56,7 @@ function rest_delete($request)
 
 }
 
-function rest_error($request)
+function rest_error()
 {
 
 }
