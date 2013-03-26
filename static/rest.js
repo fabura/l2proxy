@@ -18,6 +18,7 @@ angular.module('rest', ['ngResource']).
 
         Project.prototype.isExpired = function (cb) {
             var re = new RegExp("(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})");
+
             return new Date(this.expireDate.replace(re, "$2/$1/$3")) - new Date() < 0;
         };
 
