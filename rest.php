@@ -10,6 +10,8 @@ require_once "util/ProxyUser.php";
 
 switch ($method) {
     case 'POST':
+        $request_body = file_get_contents('php://input');
+        $request = json_decode($request_body);
         rest_post($request);
         break;
     case 'GET':
@@ -25,28 +27,25 @@ switch ($method) {
 
 function rest_get($request)
 {
-    if (!isset($_GET['name'])) {
+    if (!isset($_GET['id'])) {
         echo json_encode(ConfigDAO::getUsersList());
         return;
     } else {
-        $res = array_filter(ConfigDAO::getUsersList(), function ($user) {
-            return $user->name == $_GET['name'];
-        });
-        if (sizeof($res) != 0) {
-            echo json_encode($res[0]);
-            return;
-        }
+        $user = ConfigDAO::getById($_GET['id']);
+        echo json_encode($user);
     }
 
 }
 
 function rest_post($request)
 {
-    $name = $_POST["name"];
-    $password = $_POST["password"];
-    $expireDate = $_POST["expireDate"];
-    $user = new ProxyUser($name, $password, $expireDate);
-    if (isset($_POST["action"]) && $_POST["action"] == "new") {
+    $id = $request->id;
+    $name = $request->name;
+    $password = $request->password;
+    $expireDate = $request->expireDate;
+    $disabled = $request->disabled;
+    $user = new ProxyUser($id, $name, $password, $expireDate, $disabled);
+    if ($request->id == null) {
         ConfigDAO::addUser($user);
     } else {
         ConfigDAO::editUser($user);
@@ -55,7 +54,9 @@ function rest_post($request)
 
 function rest_delete($request)
 {
-
+    print("on deleting!");
+    $id = $_GET["id"];
+    ConfigDAO::removeUser($id);
 }
 
 function rest_error()

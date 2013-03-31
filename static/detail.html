@@ -1,20 +1,24 @@
 <form name="myForm">
     <div class="control-group" ng-class="{error: myForm.name.$invalid}">
         <label>Name</label>
-        <input type="text" name="name" ng-model="project.name" required>
+        <input type="text" name="name" ng-model="user.name" required>
     <span ng-show="myForm.name.$error.required" class="help-inline">
         Required</span>
     </div>
 
     <div class="control-group" ng-class="{error: myForm.site.$invalid}">
         <label>Password</label>
-        <input type="text" name="site" ng-model="project.password" required>
+        <input type="text" name="site" ng-model="user.password" required>
     <span ng-show="myForm.site.$error.required" class="help-inline">
         Required</span>
     </div>
     <div class="control-group">
-        <label for="expirationDate">Expiration date</label>
-        <input type="date" name="expirationDate" id="expirationDate" ng-model="project.expireDate"/>
+        <label for="expirationDate">Expiration date (ММ/dd/YYYY)</label>
+        <input type="date" name="expirationDate" id="expirationDate" ng-model="user.expireDate"/>
+    </div>
+    <div class="control-group">
+        <label for="disabled">Disabled?</label>
+        <input type="checkbox" name="disabled" id="disabled" ng-model="user.disabled"/>
     </div>
 
     <br>
@@ -23,6 +27,6 @@
             class="btn btn-primary">Save
     </button>
     <button ng-click="destroy()"
-            ng-show="project.name" class="btn btn-danger">Delete
+            ng-show="user.name" class="btn btn-danger">Delete
     </button>
 </form>

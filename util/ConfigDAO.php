@@ -18,7 +18,8 @@ class ConfigDAO
         return $users;
     }
 
-    public static function getUsersAsArrays(){
+    public static function getUsersAsArrays()
+    {
         $result = array();
         foreach (self::getUsersList() as $user) {
             $result[] = $user->toArray();
@@ -38,12 +39,12 @@ class ConfigDAO
         fclose($file);
     }
 
-    public static function removeUser($userName)
+    public static function removeUser($id)
     {
         $users = self::getUsersList();
         $result = array();
         foreach ($users as $user) {
-            if ($user->name != $userName) {
+            if ($user->id != $id) {
                 $result[] = $user;
             }
         }
@@ -52,24 +53,48 @@ class ConfigDAO
 
     public static function addUser($user)
     {
+        print("adding new user;");
         $users = self::getUsersList();
+        $maxId= 0;
+        foreach ($users as /* @ProxyUser*/ $oldUser) {
+            if($oldUser->id > $maxId){$maxId = $oldUser->id;}
+        }
+        print($maxId+1);
+        $user->id = $maxId +1;
+        print($user->toString());
         $users[] = $user;
         self::saveUsersList($users);
     }
 
-    //name could not change
     public static function editUser($newUser)
     {
         $users = self::getUsersList();
         $result = array();
         foreach ($users as $oldUser) {
-            if ($oldUser->name == $newUser->name) {
+            if ($oldUser->id == $newUser->id) {
                 $result[] = $newUser;
             } else {
                 $result[] = $oldUser;
             }
         }
         self::saveUsersList($result);
+    }
+
+    public static function getById($id)
+    {
+        $res = array();
+        foreach (self::getUsersList() as $user) {
+            if ($user->id == $id) {
+                $res[] = $user;
+            }
+        }
+        if (count($res) > 1) {
+            throw Exception("There is duplicated id");
+        } elseif (count($res) == 0) {
+            return null;
+        } else {
+            return $res[0];
+        }
     }
 }
 

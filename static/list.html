@@ -5,18 +5,18 @@
         <th>User</th>
         <th>Password</th>
         <th>Expire date</th>
-        <th>Enabled?</th>
+        <th>Disabled?</th>
         <th><a href="#/new"><i class="icon-plus-sign"></i></a></th>
     </tr>
     </thead>
     <tbody>
-    <tr class="expired-{{project.isExpired()}}" ng-repeat="project in projects | filter:search | orderBy: ['name', 'expireDate']">
-        <td>{{project.name}}</td>
-        <td>{{project.password}}</td>
-        <td>{{project.expireDate}}</td>
-        <td><input type="checkbox" ng-model="project.disabled" name="userEnabled" />
+    <tr class="expired-{{user.isExpired()}}" ng-repeat="user in users | filter:search | orderBy: ['id', 'expireDate']">
+        <td>{{user.name}}</td>
+        <td>{{user.password}}</td>
+        <td>{{user.expireDate}}</td>
+        <td><input type="checkbox" ng-model="user.disabled" name="userEnabled" />
         <td>
-            <a href="#/edit/{{project.name}}"><i class="icon-pencil"></i></a>
+            <a href="#/edit/{{user.id}}"><i class="icon-pencil"></i></a>
         </td>
     </tr>
     </tbody>
