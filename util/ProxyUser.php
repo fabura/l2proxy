@@ -35,11 +35,6 @@ class ProxyUser
         $this->disabled = $disabled;
     }
 
-    public function isExpired()
-    {
-        return DateTime::createFromFormat("d.m.Y", $this->expireDate) < new DateTime("now");
-    }
-
     public function toString()
     {
         $str = "";
